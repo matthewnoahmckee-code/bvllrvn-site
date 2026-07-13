@@ -260,11 +260,11 @@
   /* ============ big banner (NEW TO BVLLRVN?) ============ */
   .banner{position:relative;padding:0;overflow:hidden}
   .banner-grid{display:grid;grid-template-columns:1fr 1fr}
-  .banner-grid img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;aspect-ratio:3/3.3}
-  .banner-overlay{
-    position:absolute;inset:0;z-index:2;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;
-    background:rgba(11,11,12,.32);color:var(--white);text-align:center;padding:1.5rem;
+  .banner-grid img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;aspect-ratio:3/3.1}
+  .banner-text{
+    background:var(--black);color:var(--white);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+    text-align:center;padding:clamp(2rem,4vw,4rem);
   }
 
   /* ============ shop by discipline ============ */
@@ -472,7 +472,7 @@
     .duo{grid-template-columns:1fr}
     .banner-grid{grid-template-columns:1fr}
     .banner-grid img{aspect-ratio:4/5}
-    .banner-grid img:last-child{display:none}
+    .banner-text{padding:3rem 1.5rem}
     .strip span{display:none}
   }
 </style>
@@ -623,12 +623,11 @@
 <!-- ============ BIG BANNER ============ -->
 <section class="banner">
   <div class="banner-grid">
-    <img src="assets/products/campaign-women.png" alt="Athlete in blackout quarter-zip and cargo joggers">
     <img src="assets/products/campaign-men.png" alt="Athlete in blackout quarter-zip and cargo joggers">
-  </div>
-  <div class="banner-overlay">
-    <div class="h-banner">Nothing Given.<br>Everything Built.</div>
-    <a href="#join" class="btn btn-white">Start The Climb</a>
+    <div class="banner-text">
+      <div class="h-banner">Nothing Given.<br>Everything Built.</div>
+      <a href="#join" class="btn btn-white">Start The Climb</a>
+    </div>
   </div>
 </section>
 
