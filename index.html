@@ -260,7 +260,7 @@
   /* ============ big banner (NEW TO BVLLRVN?) ============ */
   .banner{position:relative;padding:0;overflow:hidden}
   .banner-grid{display:grid;grid-template-columns:1fr 1fr}
-  .banner-grid img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/10}
+  .banner-grid img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;aspect-ratio:3/3.3}
   .banner-overlay{
     position:absolute;inset:0;z-index:2;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;
@@ -471,6 +471,7 @@
   @media(max-width:640px){
     .duo{grid-template-columns:1fr}
     .banner-grid{grid-template-columns:1fr}
+    .banner-grid img{aspect-ratio:4/5}
     .banner-grid img:last-child{display:none}
     .strip span{display:none}
   }
@@ -622,8 +623,8 @@
 <!-- ============ BIG BANNER ============ -->
 <section class="banner">
   <div class="banner-grid">
-    <img src="assets/products/capsule-momentum.png" alt="">
-    <img src="assets/products/split-men.png" alt="">
+    <img src="assets/products/campaign-women.png" alt="Athlete in blackout quarter-zip and cargo joggers">
+    <img src="assets/products/campaign-men.png" alt="Athlete in blackout quarter-zip and cargo joggers">
   </div>
   <div class="banner-overlay">
     <div class="h-banner">Nothing Given.<br>Everything Built.</div>
