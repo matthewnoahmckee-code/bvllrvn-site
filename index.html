@@ -183,7 +183,7 @@
   }
   .rail::-webkit-scrollbar{height:3px}
   .rail::-webkit-scrollbar-thumb{background:#c9c7c2}
-  .pcard{scroll-snap-align:start;position:relative}
+  .pcard{scroll-snap-align:start;position:relative;cursor:pointer}
   .pcard-img{
     position:relative;aspect-ratio:1344/768;overflow:hidden;background:var(--paper);
   }
@@ -358,6 +358,56 @@
   .d-total{display:flex;justify-content:space-between;font-size:.95rem;font-weight:700;text-transform:uppercase;margin-bottom:1.1rem}
   .drawer-foot .btn{width:100%}
   .d-note{margin-top:.9rem;text-align:center;font-size:.78rem;color:var(--grey)}
+
+  /* ============ product quick-view modal ============ */
+  .pmodal{
+    position:fixed;inset:0;z-index:250;background:rgba(11,11,12,.55);
+    display:flex;align-items:center;justify-content:center;
+    padding:clamp(0px,3vw,3rem);
+    opacity:0;pointer-events:none;transition:opacity .35s var(--ease);
+  }
+  .pmodal.open{opacity:1;pointer-events:auto}
+  .pmodal-card{
+    background:var(--white);max-width:1080px;width:100%;max-height:100%;
+    overflow:auto;display:grid;grid-template-columns:1.25fr 1fr;position:relative;
+  }
+  .pmodal-close{
+    position:absolute;top:.9rem;right:.9rem;z-index:2;
+    width:2.4rem;height:2.4rem;border-radius:50%;border:none;cursor:pointer;
+    background:rgba(255,255,255,.92);color:var(--black);font-size:1.3rem;line-height:1;
+  }
+  .pmodal-img{background:var(--paper);cursor:zoom-in;min-height:100%}
+  .pmodal-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .pmodal-info{padding:clamp(1.6rem,3vw,2.6rem);display:flex;flex-direction:column}
+  .pmodal-info .pill{align-self:flex-start}
+  .pmodal-name{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin:.4rem 0 .3rem}
+  .pmodal-price{font-size:1.15rem;font-weight:600;margin-bottom:1.1rem}
+  .pmodal-sub{font-size:.9rem;color:var(--grey);margin-bottom:1rem}
+  .pmodal-desc{font-size:.95rem;line-height:1.85;color:#3c3c40;margin-bottom:1.6rem}
+  .size-label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.6rem}
+  .sizes{display:flex;gap:.5rem;margin-bottom:1.8rem}
+  .size-btn{
+    min-width:2.9rem;height:2.9rem;border:1px solid var(--line-l);background:var(--white);
+    font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s;
+  }
+  .size-btn.sel{background:var(--black);color:var(--white);border-color:var(--black)}
+  .pmodal-add{width:100%;margin-top:auto}
+  .pmodal-zoom-hint{font-size:.72rem;color:var(--grey);margin-top:.9rem;text-transform:uppercase;letter-spacing:.04em}
+  @media(max-width:860px){
+    .pmodal{padding:0}
+    .pmodal-card{grid-template-columns:1fr;max-height:100vh;height:100%}
+    .pmodal-img{min-height:0}
+    .pmodal-img img{aspect-ratio:1344/768;height:auto}
+  }
+
+  /* ============ lightbox ============ */
+  .lightbox{
+    position:fixed;inset:0;z-index:320;background:rgba(11,11,12,.96);
+    display:flex;align-items:center;justify-content:center;cursor:zoom-out;
+    opacity:0;pointer-events:none;transition:opacity .3s var(--ease);
+  }
+  .lightbox.open{opacity:1;pointer-events:auto}
+  .lightbox img{max-width:95vw;max-height:93vh;object-fit:contain}
 
   .toast{
     position:fixed;bottom:1.8rem;left:50%;transform:translate(-50%,180%);
@@ -679,19 +729,51 @@
   </div>
 </aside>
 
+<!-- ============ PRODUCT QUICK-VIEW ============ -->
+<div class="pmodal" id="pmodal">
+  <div class="pmodal-card" role="dialog" aria-label="Product details">
+    <button class="pmodal-close" id="pmodalClose" aria-label="Close">×</button>
+    <div class="pmodal-img" id="pmodalImgWrap"><img id="pmodalImg" src="" alt=""></div>
+    <div class="pmodal-info">
+      <span class="pill" id="pmodalTag" style="display:none"></span>
+      <div class="pmodal-name" id="pmodalName"></div>
+      <div class="pmodal-price" id="pmodalPrice"></div>
+      <div class="pmodal-sub" id="pmodalSub"></div>
+      <p class="pmodal-desc" id="pmodalDesc"></p>
+      <div class="size-label">Size</div>
+      <div class="sizes" id="pmodalSizes">
+        <button class="size-btn">S</button><button class="size-btn sel">M</button><button class="size-btn">L</button><button class="size-btn">XL</button>
+      </div>
+      <button class="btn btn-black pmodal-add" id="pmodalAdd">Add To Cart</button>
+      <div class="pmodal-zoom-hint">Click the photo to enlarge</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""></div>
+
 <div class="toast" id="toast">Added to cart</div>
 
 <script>
 /* ---------------- sets ---------------- */
 const PRODUCTS = [
-  {id:'set-blackout-tonal',     name:'Blackout Set · Tonal',     sub:'Hoodie · Tee · Joggers · Cap · Duffle',      price:348, tag:'Best Seller', swatches:['#141416','#26262a','#f2f2f3']},
-  {id:'set-blackout-statement', name:'Blackout Set · Statement', sub:'White mark · Five pieces',                   price:348, tag:'',            swatches:['#101012','#3a3a3e']},
-  {id:'set-heritage',           name:'Heritage Set',             sub:'Zip hoodie · Tees · Joggers · Duffle',       price:368, tag:'New',         swatches:['#5c5c60','#3d2228','#1d3128']},
-  {id:'set-utility',            name:'Utility Capsule',          sub:'Shell · Puffer vest · Knits · Cargo',        price:498, tag:'Limited',     swatches:['#1c2233','#e8e4d8','#2e2e33']},
-  {id:'set-track',              name:'Momentum Track Set',       sub:'Track suit · Hoodie · Tees · Backpack',      price:298, tag:'',            swatches:['#1d2a4a','#2e2e33','#101012']},
-  {id:'set-women-neutral',      name:"Women's Neutrals Set",     sub:'Cropped hoodie · Bras · Leggings · Joggers', price:268, tag:'Women',       swatches:['#b59a7e','#3c3c40']},
-  {id:'set-women-training',     name:'Sculpt Training Set',      sub:'Blackout hoodie · Joggers · Matte leggings', price:258, tag:'Women',       swatches:['#141416']},
-  {id:'set-colors',             name:'Colors Pack',              sub:'Polo · Hoodie · Mesh shorts · Track suit',   price:328, tag:'Preview',     swatches:['#c9366b','#2a52be','#8fd14f','#e8722a']},
+  {id:'set-blackout-tonal',     name:'Blackout Set · Tonal',     sub:'Hoodie · Tee · Joggers · Cap · Duffle',      price:348, tag:'Best Seller', swatches:['#141416','#26262a','#f2f2f3'],
+   desc:'The flagship. Five pieces in 480 GSM fleece and heavyweight cotton — embossed, not printed, black on black. The quality speaks first; the bull confirms it.'},
+  {id:'set-blackout-statement', name:'Blackout Set · Statement', sub:'White mark · Five pieces',                   price:348, tag:'',            swatches:['#101012','#3a3a3e'],
+   desc:'Same five pieces, louder mark. The white bull for the days the work should be seen. Heavyweight fleece, combed cotton, full-grain leather duffle.'},
+  {id:'set-heritage',           name:'Heritage Set',             sub:'Zip hoodie · Tees · Joggers · Duffle',       price:368, tag:'New',         swatches:['#5c5c60','#3d2228','#1d3128'],
+   desc:'Heather zip hoodie, embossed tees in oxblood and forest, tapered joggers, and the duffle. Earth tones. Same discipline.'},
+  {id:'set-utility',            name:'Utility Capsule',          sub:'Shell · Puffer vest · Knits · Cargo',        price:498, tag:'Limited',     swatches:['#1c2233','#e8e4d8','#2e2e33'],
+   desc:'Shell jacket, bone puffer vest, tonal knits, and utility cargo. Built for cold starts and long seasons. Limited run — never restocked.'},
+  {id:'set-track',              name:'Momentum Track Set',       sub:'Track suit · Hoodie · Tees · Backpack',      price:298, tag:'',            swatches:['#1d2a4a','#2e2e33','#101012'],
+   desc:'Full track suit, short-sleeve hoodie, tees, and the pack. Momentum wear for the days between sessions — cut to move, composed at rest.'},
+  {id:'set-women-neutral',      name:"Women's Neutrals Set",     sub:'Cropped hoodie · Bras · Leggings · Joggers', price:268, tag:'Women',       swatches:['#b59a7e','#3c3c40'],
+   desc:'Cropped raw-hem hoodie, supported bras, high-rise leggings, and joggers in sand and charcoal. Soft hand, structured fit.'},
+  {id:'set-women-training',     name:'Sculpt Training Set',      sub:'Blackout hoodie · Joggers · Matte leggings', price:258, tag:'Women',       swatches:['#141416'],
+   desc:'Blackout cropped hoodie, matte-finish leggings, and biker shorts. Squat-proof, sweat-ready, tonal from warm-up to last set.'},
+  {id:'set-colors',             name:'Colors Pack',              sub:'Polo · Hoodie · Mesh shorts · Track suit',   price:328, tag:'Preview',     swatches:['#c9366b','#2a52be','#8fd14f','#e8722a'],
+   desc:'Polo, hoodie, mesh shorts, and the track suit in full color. A preview of what comes after the blackout. Early access for the Inner Circle.'},
 ];
 
 const rail=document.getElementById('productRail');
@@ -769,6 +851,55 @@ document.addEventListener('click',e=>{
   f.textContent=f.textContent==='♡'?'♥':'♡';
 });
 updateCount();
+
+/* ---------------- product quick-view + lightbox ---------------- */
+const pmodal=document.getElementById('pmodal');
+let pmodalId=null;
+function openProduct(p){
+  pmodalId=p.id;
+  document.getElementById('pmodalImg').src=`assets/products/${p.id}.png`;
+  document.getElementById('pmodalImg').alt=p.name;
+  document.getElementById('pmodalName').textContent=p.name;
+  document.getElementById('pmodalPrice').textContent='$'+p.price;
+  document.getElementById('pmodalSub').textContent=p.sub;
+  document.getElementById('pmodalDesc').textContent=p.desc;
+  const tag=document.getElementById('pmodalTag');
+  if(p.tag){tag.textContent=p.tag;tag.style.display='inline-block'}else{tag.style.display='none'}
+  pmodal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeProduct(){pmodal.classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.pcard');
+  if(!card||e.target.closest('.quick-add')||e.target.closest('.fav'))return;
+  const name=card.querySelector('.pcard-name').textContent;
+  const p=PRODUCTS.find(x=>x.name===name);
+  if(p)openProduct(p);
+});
+document.getElementById('pmodalClose').addEventListener('click',closeProduct);
+pmodal.addEventListener('click',e=>{if(e.target===pmodal)closeProduct()});
+document.getElementById('pmodalSizes').addEventListener('click',e=>{
+  const b=e.target.closest('.size-btn');if(!b)return;
+  document.querySelectorAll('#pmodalSizes .size-btn').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');
+});
+document.getElementById('pmodalAdd').addEventListener('click',()=>{
+  if(!pmodalId)return;
+  cart[pmodalId]=(cart[pmodalId]||0)+1;saveCart();
+  closeProduct();openCart();
+});
+const lightbox=document.getElementById('lightbox');
+document.getElementById('pmodalImgWrap').addEventListener('click',()=>{
+  document.getElementById('lightboxImg').src=document.getElementById('pmodalImg').src;
+  lightbox.classList.add('open');
+});
+lightbox.addEventListener('click',()=>lightbox.classList.remove('open'));
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  if(lightbox.classList.contains('open'))lightbox.classList.remove('open');
+  else if(pmodal.classList.contains('open'))closeProduct();
+  else closeCart();
+});
 
 /* ---------------- scroll reveal ---------------- */
 if(location.search.includes('noanim'))document.documentElement.classList.add('no-anim');
