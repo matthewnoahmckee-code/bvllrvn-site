@@ -94,6 +94,26 @@
     min-width:1.3rem;height:1.3rem;border-radius:50%;
     background:var(--black);color:var(--white);font-size:.68rem;font-weight:700;
   }
+  .nav-burger,.nav-search{display:none}
+  .bag-wrap{position:relative;display:inline-flex;align-items:center;gap:.45rem}
+  .bag-icon{display:none}
+  .mobile-menu{
+    position:fixed;left:0;right:0;z-index:99;background:var(--white);
+    border-bottom:1px solid var(--line-l);padding:0 0 1rem;
+    transform:translateY(-10px);opacity:0;pointer-events:none;
+    transition:transform .3s var(--ease),opacity .3s var(--ease);
+  }
+  .mobile-menu.open{transform:none;opacity:1;pointer-events:auto}
+  .mobile-menu a{
+    display:block;padding:1.05rem 1.4rem;border-top:1px solid var(--line-l);
+    color:var(--black);text-decoration:none;
+    font-size:1rem;font-weight:600;text-transform:uppercase;letter-spacing:-.01em;
+  }
+  .mobile-menu .menu-join{
+    background:var(--black);color:var(--white);text-align:center;
+    margin:.9rem 1.4rem 0;border:none;font-weight:800;letter-spacing:.06em;
+  }
+  @media(min-width:981px){.mobile-menu{display:none}}
 
   /* ============ utility strip ============ */
   .strip{
@@ -380,7 +400,15 @@
     .cats{grid-template-columns:repeat(2,1fr)}
     .foot-top{grid-template-columns:1fr}
     .foot-cols{grid-template-columns:1fr 1fr}
-    .nav-left a:not(:first-child){display:none}
+    .nav-left a{display:none}
+    .nav-burger,.nav-search{display:inline-flex}
+    .cart-word{display:none}
+    .bag-icon{display:block}
+    .bag-wrap .cart-count{
+      position:absolute;top:-7px;right:-9px;
+      min-width:1.05rem;height:1.05rem;font-size:.6rem;
+      border:2px solid var(--white);
+    }
   }
   @media(max-width:640px){
     .duo{grid-template-columns:1fr}
@@ -398,6 +426,12 @@
 <!-- ============ NAV ============ -->
 <nav>
   <div class="nav-left">
+    <button class="nav-icon nav-burger" id="menuToggle" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6.5" x2="21" y2="6.5"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17.5" x2="21" y2="17.5"/></svg>
+    </button>
+    <button class="nav-icon nav-search" aria-label="Search">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    </button>
     <a href="#shop">Shop</a>
     <a href="#women">Women</a>
     <a href="#men">Men</a>
@@ -409,9 +443,24 @@
     </svg>
   </a>
   <div class="nav-right">
-    <button class="nav-icon" id="cartOpen">Cart <span class="cart-count" id="cartCount">0</span></button>
+    <button class="nav-icon" id="cartOpen" aria-label="Cart">
+      <span class="cart-word">Cart</span>
+      <span class="bag-wrap">
+        <svg class="bag-icon" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </span>
+    </button>
   </div>
 </nav>
+
+<!-- ============ MOBILE MENU ============ -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#shop">Shop</a>
+  <a href="#women">Women</a>
+  <a href="#men">Men</a>
+  <a href="#story">Story</a>
+  <a href="#join" class="menu-join">Join the Inner Circle</a>
+</div>
 
 <!-- ============ UTILITY STRIP ============ -->
 <div class="strip">
@@ -669,6 +718,14 @@ const drawer=document.getElementById('drawer'),overlay=document.getElementById('
 const openCart=()=>{drawer.classList.add('open');overlay.classList.add('open');renderCart()};
 const closeCart=()=>{drawer.classList.remove('open');overlay.classList.remove('open')};
 document.getElementById('cartOpen').addEventListener('click',openCart);
+
+/* ---------------- mobile menu ---------------- */
+const mMenu=document.getElementById('mobileMenu');
+document.getElementById('menuToggle').addEventListener('click',()=>{
+  mMenu.style.top=document.querySelector('nav').getBoundingClientRect().bottom+'px';
+  mMenu.classList.toggle('open');
+});
+mMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mMenu.classList.remove('open')));
 document.getElementById('cartClose').addEventListener('click',closeCart);
 overlay.addEventListener('click',closeCart);
 
