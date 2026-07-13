@@ -105,28 +105,45 @@
   .strip b{font-weight:800}
   .strip a{color:var(--white);font-weight:700;text-transform:uppercase;font-size:.78rem;letter-spacing:.06em}
 
-  /* ============ campaign hero (light collage) ============ */
-  .hero{background:var(--paper);padding:clamp(2rem,4vw,3.5rem) 0}
-  .hero-grid{
-    display:grid;grid-template-columns:1.1fr 1.6fr 1fr;gap:clamp(1rem,2.5vw,2rem);
-    align-items:stretch;
+  /* ============ mobile category quick-rail (Alo pattern) ============ */
+  .quick-rail{display:none}
+  @media(max-width:980px){
+    .quick-rail{
+      display:grid;grid-auto-flow:column;grid-auto-columns:104px;
+      gap:1rem;overflow-x:auto;padding:1rem 1rem 1.1rem;
+      background:var(--white);scrollbar-width:none;
+    }
+    .quick-rail::-webkit-scrollbar{display:none}
+    .quick-item{text-decoration:none;color:var(--black)}
+    .quick-item img{width:104px;height:104px;object-fit:cover}
+    .quick-item span{
+      display:block;margin-top:.5rem;text-align:center;
+      font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.02em;
+    }
   }
-  .hero-copy{display:flex;flex-direction:column;justify-content:center;gap:1.2rem;padding-right:1rem}
-  .hero-copy .campaign-title{margin:-.4rem 0 .4rem}
-  .hero-copy p{color:#55534f;font-size:.95rem;max-width:26em}
-  .hero-copy .btn{align-self:flex-start;margin-top:.6rem}
-  .hero-img{position:relative;overflow:hidden;background:#e5e2dd}
+
+  /* ============ campaign hero (light collage) ============ */
+  .hero{background:var(--paper);padding:clamp(2.5rem,4.5vw,4rem) 0 clamp(2rem,4vw,3.5rem);position:relative}
+  .hero-head{
+    text-align:center;max-width:680px;margin:0 auto clamp(2.2rem,4vw,3.2rem);
+    display:flex;flex-direction:column;align-items:center;gap:1.1rem;
+  }
+  .hero-head p{color:#55534f;font-size:.98rem;max-width:34em}
+  .hero-head .btn{margin-top:.5rem}
+  .hero-collage{
+    display:grid;grid-template-columns:1fr 1.55fr 1fr;
+    gap:clamp(.9rem,1.5vw,1.4rem);height:clamp(340px,54vh,580px);
+  }
+  .hero-img{position:relative;overflow:hidden;background:#e5e2dd;height:100%}
   .hero-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
   .hero-img:hover img{transform:scale(1.03)}
-  .hero-img.tall{aspect-ratio:3/4}
-  .hero-img.main{aspect-ratio:auto;min-height:100%}
 
   /* ============ product carousel ============ */
   section{padding:clamp(3rem,6vw,5rem) 0}
   .sec-head{margin-bottom:clamp(1.8rem,3.5vw,2.8rem)}
   .rail{
-    display:grid;grid-auto-flow:column;grid-auto-columns:clamp(260px,23vw,340px);
-    gap:clamp(.9rem,1.5vw,1.4rem);overflow-x:auto;
+    display:grid;grid-auto-flow:column;grid-auto-columns:clamp(330px,36vw,560px);
+    gap:clamp(1rem,1.8vw,1.8rem);overflow-x:auto;
     padding:0 clamp(1rem,3vw,2.5rem) 1.2rem;
     scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#c9c7c2 transparent;
   }
@@ -164,9 +181,9 @@
     font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em;
     padding:.28rem .55rem;margin-bottom:.55rem;
   }
-  .pcard-name{font-size:1rem;font-weight:600;line-height:1.4}
-  .pcard-sub{font-size:.92rem;color:var(--grey);margin-top:.15rem}
-  .pcard-price{font-size:.95rem;color:var(--grey);margin-top:.35rem}
+  .pcard-name{font-size:1.15rem;font-weight:700;line-height:1.35;letter-spacing:-.01em}
+  .pcard-sub{font-size:.95rem;color:var(--grey);margin-top:.2rem}
+  .pcard-price{font-size:1.05rem;color:var(--black);font-weight:600;margin-top:.4rem}
 
   /* ============ trending 2-up tiles ============ */
   .duo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2vw,1.8rem)}
@@ -334,9 +351,29 @@
   .no-anim{scroll-behavior:auto!important}
 
   /* ============ responsive ============ */
+  /* mobile hero: full-bleed image, text overlaid (Alo pattern) */
+  @media(max-width:760px){
+    .hero{padding:0}
+    .hero .wrap{padding:0;max-width:none}
+    .hero-collage{display:block;height:74vh}
+    .hero-collage .hero-img{display:none}
+    .hero-collage .hero-img:nth-child(2){display:block;height:100%}
+    .hero-head{
+      position:absolute;inset:0;z-index:2;margin:0;max-width:none;
+      align-items:flex-start;text-align:left;justify-content:flex-start;
+      padding:1.8rem 1.3rem;color:var(--white);
+    }
+    .hero-head .campaign-title{color:var(--white);text-shadow:0 1px 14px rgba(0,0,0,.35);font-size:2.6rem}
+    .hero-head .eyebrow{color:var(--white);text-shadow:0 1px 10px rgba(0,0,0,.35)}
+    .hero-head p{display:none}
+    .hero-head .btn{margin-top:auto}
+  }
+  @media(min-width:761px) and (max-width:980px){
+    .hero-collage{grid-template-columns:1fr 1fr;height:auto}
+    .hero-collage .hero-img{aspect-ratio:4/5}
+    .hero-collage .hero-img:last-child{display:none}
+  }
   @media(max-width:980px){
-    .hero-grid{grid-template-columns:1fr;gap:1.2rem}
-    .hero-img.tall{aspect-ratio:16/10}
     .story-grid{grid-template-columns:1fr}
     .pillars-grid{grid-template-columns:1fr;gap:1.6rem}
     .texture-strip{grid-template-columns:1fr}
@@ -382,25 +419,38 @@
   <a href="#join">Join</a>
 </div>
 
+<!-- ============ MOBILE QUICK-RAIL ============ -->
+<div class="quick-rail">
+  <a href="#shop" class="quick-item"><img src="assets/products/set-blackout-tonal.png" alt=""><span>New In</span></a>
+  <a href="#women" class="quick-item"><img src="assets/products/set-women-training.png" alt=""><span>Women</span></a>
+  <a href="#men" class="quick-item"><img src="assets/products/split-men.png" alt=""><span>Men</span></a>
+  <a href="#shop" class="quick-item"><img src="assets/products/capsule-blackout.png" alt=""><span>Blackout</span></a>
+  <a href="#shop" class="quick-item"><img src="assets/products/set-track.png" alt=""><span>Track</span></a>
+</div>
+
 <!-- ============ CAMPAIGN HERO ============ -->
 <header class="hero" id="top">
   <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <div class="eyebrow">Drop 001 · New</div>
-        <div class="campaign-title">The Blackout Capsule</div>
-        <p>Tonal embroidery on heavyweight fleece. No billboard branding — the quality speaks first, the bull confirms it.</p>
-        <a href="#shop" class="btn btn-black">Shop New In</a>
-      </div>
-      <div class="hero-img main"><img src="assets/products/capsule-blackout.png" alt="BVLLRVN blackout hoodie with tonal embroidered bull"></div>
-      <div class="hero-img tall"><img src="assets/products/set-blackout-tonal.png" alt="Blackout capsule flat lay"></div>
+    <div class="hero-head">
+      <div class="eyebrow">Drop 001 · New</div>
+      <div class="campaign-title">The Blackout Capsule</div>
+      <p>Tonal embroidery on heavyweight fleece. No billboard branding — the quality speaks first, the bull confirms it.</p>
+      <a href="#shop" class="btn btn-black">Shop New In</a>
+    </div>
+    <div class="hero-collage">
+      <div class="hero-img"><img src="assets/products/set-blackout-tonal.png" alt="Blackout capsule flat lay"></div>
+      <div class="hero-img"><img src="assets/products/capsule-blackout.png" alt="BVLLRVN blackout hoodie with tonal embroidered bull"></div>
+      <div class="hero-img"><img src="assets/products/texture-emboss.png" alt="Embossed tonal bull mark close-up"></div>
     </div>
   </div>
 </header>
 
 <!-- ============ PRODUCT CAROUSEL ============ -->
-<section id="shop" style="padding-bottom:1.5rem">
-  <div class="sec-head"><h2 class="h-section">Discover Drop 001</h2></div>
+<section id="shop" style="padding-bottom:1.5rem;padding-top:clamp(3.5rem,7vw,6rem)">
+  <div class="sec-head" style="margin-bottom:clamp(2.2rem,4vw,3.4rem)">
+    <h2 class="h-section" style="font-size:clamp(1.9rem,3.6vw,3rem);letter-spacing:-.035em;font-weight:700">Discover Drop 001</h2>
+    <p style="text-align:center;color:var(--grey);font-size:.95rem;margin-top:.7rem">Eight sets. Limited, never restocked.</p>
+  </div>
   <div class="rail" id="productRail"></div>
 </section>
 
@@ -476,8 +526,8 @@
     <img src="assets/products/split-men.png" alt="">
   </div>
   <div class="banner-overlay">
-    <div class="h-banner">New to BVLLRVN?</div>
-    <a href="#join" class="btn btn-white">Start Here</a>
+    <div class="h-banner">Nothing Given.<br>Everything Built.</div>
+    <a href="#join" class="btn btn-white">Start The Climb</a>
   </div>
 </section>
 
