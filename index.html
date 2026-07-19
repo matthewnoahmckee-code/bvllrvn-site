@@ -407,7 +407,7 @@
     .pmodal-img img{aspect-ratio:1344/768;height:auto}
   }
 
-  /* ============ inner circle popup ============ */
+  /* ============ The RVN popup ============ */
   .icpop{
     position:fixed;inset:0;z-index:260;background:rgba(11,11,12,.6);
     display:flex;align-items:center;justify-content:center;padding:1.2rem;
@@ -569,12 +569,12 @@
   <a href="#women">Women</a>
   <a href="#men">Men</a>
   <a href="story.html">Story</a>
-  <a href="#join" class="menu-join">Join the Inner Circle</a>
+  <a href="#join" class="menu-join">Join The RVN</a>
 </div>
 
 <!-- ============ UTILITY STRIP ============ -->
 <div class="strip">
-  <div><b>THE INNER CIRCLE</b> <span>— first access to every drop</span></div>
+  <div><b>THE RVN</b> <span>— first access to every drop</span></div>
   <a href="#join">Join</a>
 </div>
 
@@ -732,7 +732,7 @@
         <p>Premium athleisure for the person rising. Built on grit, resilience, and the discipline to keep moving forward.</p>
       </div>
       <div class="foot-news">
-        <h4>Join the Inner Circle — enter your email below</h4>
+        <h4>Join The RVN — enter your email below</h4>
         <form class="news-form" id="newsForm">
           <input type="email" placeholder="Enter your email" required aria-label="Email address">
           <button type="submit" aria-label="Join">→</button>
@@ -804,12 +804,12 @@
   </div>
 </div>
 
-<!-- ============ INNER CIRCLE POPUP ============ -->
-<div class="icpop" id="icpop" role="dialog" aria-label="Join the Inner Circle">
+<!-- ============ THE RVN POPUP ============ -->
+<div class="icpop" id="icpop" role="dialog" aria-label="Join The RVN">
   <div class="icpop-card">
     <button class="icpop-close" id="icpopClose" aria-label="Close">×</button>
     <img class="icpop-bull" src="assets/bull-white.png" alt="">
-    <div class="eyebrow">The Inner Circle</div>
+    <div class="eyebrow">The RVN</div>
     <div class="icpop-head">First In.<br>Every Drop.</div>
     <p class="icpop-sub">Made once, gone fast — the list goes first. Member pricing at launch, and the field notes in between.</p>
     <form class="icpop-form" id="icpopForm">
@@ -843,7 +843,7 @@ const PRODUCTS = [
   {id:'set-women-training',     name:'Sculpt Training Set',      sub:'Blackout hoodie · Joggers · Matte leggings', price:258, tag:'Women',       swatches:['#141416'],
    desc:'Blackout cropped hoodie, matte-finish leggings, and biker shorts. Squat-proof, sweat-ready, tonal from warm-up to last set.'},
   {id:'set-colors',             name:'Colors Pack',              sub:'Polo · Hoodie · Mesh shorts · Track suit',   price:328, tag:'Preview',     swatches:['#c9366b','#2a52be','#8fd14f','#e8722a'],
-   desc:'Polo, hoodie, mesh shorts, and the track suit in full color. A preview of what comes after the blackout. Early access for the Inner Circle.'},
+   desc:'Polo, hoodie, mesh shorts, and the track suit in full color. A preview of what comes after the blackout. Early access for The RVN.'},
 ];
 
 const rail=document.getElementById('productRail');
@@ -986,7 +986,7 @@ addEventListener('scroll',checkReveal,{passive:true});
 addEventListener('resize',checkReveal,{passive:true});
 checkReveal();
 
-/* ---------------- newsletter (Inner Circle waitlist) ----------------
+/* ---------------- newsletter (The RVN waitlist) ----------------
    Submissions post into a Google Form -> Google Sheet owned by the brand.
    WAITLIST.action = the form's formResponse URL; WAITLIST.entry = the
    email question's entry ID. If unset, falls back to toast-only. */
@@ -999,7 +999,7 @@ function joinWaitlist(email){
   }
 }
 
-/* ---------------- inner circle popup ----------------
+/* ---------------- The RVN popup ----------------
    Shows once per visitor: after 14s on site OR 40% scroll OR desktop
    exit-intent, whichever first. Suppressed 7 days on dismiss, forever
    on join. Never fires if the footer form was already used. */
@@ -1040,7 +1040,7 @@ document.getElementById('icpopForm').addEventListener('submit',e=>{
   joinWaitlist(e.target.querySelector('input').value.trim());
   icSet({...icState(),joined:true});
   icHide(false);
-  const t=document.getElementById('toast');t.textContent='Welcome to the inner circle';
+  const t=document.getElementById('toast');t.textContent='Welcome to The RVN';
   t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>{t.classList.remove('show');t.textContent='Added to cart'},2100);
 });
 
@@ -1048,7 +1048,7 @@ document.getElementById('newsForm').addEventListener('submit',e=>{
   e.preventDefault();
   joinWaitlist(e.target.querySelector('input[type="email"]').value.trim());
   icSet({...icState(),joined:true});
-  const t=document.getElementById('toast');t.textContent='Welcome to the inner circle';
+  const t=document.getElementById('toast');t.textContent='Welcome to The RVN';
   t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>{t.classList.remove('show');t.textContent='Added to cart'},2100);
   e.target.reset();
 });
