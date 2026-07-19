@@ -407,6 +407,49 @@
     .pmodal-img img{aspect-ratio:1344/768;height:auto}
   }
 
+  /* ============ inner circle popup ============ */
+  .icpop{
+    position:fixed;inset:0;z-index:260;background:rgba(11,11,12,.6);
+    display:flex;align-items:center;justify-content:center;padding:1.2rem;
+    opacity:0;pointer-events:none;transition:opacity .4s var(--ease);
+  }
+  .icpop.open{opacity:1;pointer-events:auto}
+  .icpop-card{
+    background:var(--black);color:var(--white);max-width:460px;width:100%;
+    padding:clamp(2rem,4vw,3rem);position:relative;text-align:center;
+    transform:translateY(14px);transition:transform .4s var(--ease);
+  }
+  .icpop.open .icpop-card{transform:none}
+  .icpop-close{
+    position:absolute;top:.8rem;right:.9rem;background:none;border:none;
+    color:var(--white);font-size:1.4rem;cursor:pointer;line-height:1;opacity:.7;
+  }
+  .icpop-close:hover{opacity:1}
+  .icpop-bull{height:64px;width:auto;margin:0 auto 1.2rem}
+  .icpop .eyebrow{color:#9a9a9e}
+  .icpop-head{
+    font-size:1.6rem;font-weight:700;text-transform:uppercase;
+    letter-spacing:-.03em;line-height:1.15;margin:.7rem 0 .8rem;
+  }
+  .icpop-sub{font-size:.92rem;color:#b9b9bc;line-height:1.7;margin-bottom:1.5rem}
+  .icpop-form{display:flex;border:1px solid rgba(255,255,255,.45)}
+  .icpop-form input{
+    flex:1;background:transparent;border:none;outline:none;color:var(--white);
+    padding:.95rem 1rem;font-family:inherit;font-size:.92rem;min-width:0;
+  }
+  .icpop-form input::placeholder{color:#8e8e92}
+  .icpop-form button{
+    background:var(--white);color:var(--black);border:none;cursor:pointer;
+    padding:0 1.5rem;font-family:inherit;font-size:.8rem;font-weight:900;
+    text-transform:uppercase;letter-spacing:.08em;
+  }
+  .icpop-later{
+    display:inline-block;margin-top:1.1rem;background:none;border:none;cursor:pointer;
+    color:#8e8e92;font-family:inherit;font-size:.72rem;font-weight:600;
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  .icpop-later:hover{color:var(--white)}
+
   /* ============ lightbox ============ */
   .lightbox{
     position:fixed;inset:0;z-index:320;background:rgba(11,11,12,.96);
@@ -761,6 +804,22 @@
   </div>
 </div>
 
+<!-- ============ INNER CIRCLE POPUP ============ -->
+<div class="icpop" id="icpop" role="dialog" aria-label="Join the Inner Circle">
+  <div class="icpop-card">
+    <button class="icpop-close" id="icpopClose" aria-label="Close">×</button>
+    <img class="icpop-bull" src="assets/bull-white.png" alt="">
+    <div class="eyebrow">The Inner Circle</div>
+    <div class="icpop-head">First In.<br>Every Drop.</div>
+    <p class="icpop-sub">Made once, gone fast — the list goes first. Member pricing at launch, and the field notes in between.</p>
+    <form class="icpop-form" id="icpopForm">
+      <input type="email" placeholder="Enter your email" required aria-label="Email address">
+      <button type="submit">Join</button>
+    </form>
+    <button class="icpop-later" id="icpopLater">Not yet</button>
+  </div>
+</div>
+
 <!-- ============ LIGHTBOX ============ -->
 <div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""></div>
 
@@ -909,6 +968,7 @@ document.addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
   if(lightbox.classList.contains('open'))lightbox.classList.remove('open');
   else if(pmodal.classList.contains('open'))closeProduct();
+  else if(icpop.classList.contains('open'))icHide(true);
   else closeCart();
 });
 
@@ -931,14 +991,63 @@ checkReveal();
    WAITLIST.action = the form's formResponse URL; WAITLIST.entry = the
    email question's entry ID. If unset, falls back to toast-only. */
 const WAITLIST={action:'',entry:''};
-document.getElementById('newsForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  const email=e.target.querySelector('input[type="email"]').value.trim();
+function joinWaitlist(email){
   if(WAITLIST.action&&email){
     const fd=new FormData();
     fd.append(WAITLIST.entry,email);
     fetch(WAITLIST.action,{method:'POST',mode:'no-cors',body:fd}).catch(()=>{});
   }
+}
+
+/* ---------------- inner circle popup ----------------
+   Shows once per visitor: after 14s on site OR 40% scroll OR desktop
+   exit-intent, whichever first. Suppressed 7 days on dismiss, forever
+   on join. Never fires if the footer form was already used. */
+const icpop=document.getElementById('icpop');
+const IC_KEY='bv-ic-state';
+function icState(){try{return JSON.parse(localStorage.getItem(IC_KEY)||'{}')}catch(e){return{}}}
+function icSet(s){localStorage.setItem(IC_KEY,JSON.stringify(s))}
+function icEligible(){
+  const s=icState();
+  if(s.joined)return false;
+  if(s.dismissedAt&&Date.now()-s.dismissedAt<7*864e5)return false;
+  return true;
+}
+let icShown=false;
+function icShow(){
+  if(icShown||!icEligible())return;
+  icShown=true;
+  icpop.classList.add('open');
+}
+function icHide(dismiss){
+  icpop.classList.remove('open');
+  if(dismiss)icSet({...icState(),dismissedAt:Date.now()});
+}
+if(icEligible()){
+  setTimeout(icShow,14000);
+  addEventListener('scroll',()=>{
+    if(scrollY>(document.body.scrollHeight-innerHeight)*0.4)icShow();
+  },{passive:true});
+  document.addEventListener('mouseout',e=>{
+    if(!e.relatedTarget&&e.clientY<=0&&innerWidth>980)icShow();
+  });
+}
+document.getElementById('icpopClose').addEventListener('click',()=>icHide(true));
+document.getElementById('icpopLater').addEventListener('click',()=>icHide(true));
+icpop.addEventListener('click',e=>{if(e.target===icpop)icHide(true)});
+document.getElementById('icpopForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  joinWaitlist(e.target.querySelector('input').value.trim());
+  icSet({...icState(),joined:true});
+  icHide(false);
+  const t=document.getElementById('toast');t.textContent='Welcome to the inner circle';
+  t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>{t.classList.remove('show');t.textContent='Added to cart'},2100);
+});
+
+document.getElementById('newsForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  joinWaitlist(e.target.querySelector('input[type="email"]').value.trim());
+  icSet({...icState(),joined:true});
   const t=document.getElementById('toast');t.textContent='Welcome to the inner circle';
   t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>{t.classList.remove('show');t.textContent='Added to cart'},2100);
   e.target.reset();
