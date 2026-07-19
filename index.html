@@ -8,6 +8,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0b0c">
 <meta property="og:title" content="Built for the Next.">
 <meta property="og:site_name" content="BVLLRVN">
 <meta property="og:description" content="Premium athleisure. Fall. Rise. Repeat.">
@@ -1053,5 +1055,6 @@ document.getElementById('newsForm').addEventListener('submit',e=>{
   e.target.reset();
 });
 </script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>
