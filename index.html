@@ -222,6 +222,12 @@
     font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em;
     padding:.28rem .55rem;margin-bottom:.55rem;
   }
+  .rail.rail-live{justify-content:center}
+  .pcard{text-decoration:none;color:var(--black);display:block}
+  .pcard-img.pcard-sq{aspect-ratio:1/1;background:var(--white)}
+  .pcard-img.pcard-sq img{object-fit:contain}
+  .pcard-buy{margin-top:1rem}
+  .shop-all{text-align:center;margin-top:clamp(1.6rem,3vw,2.4rem)}
   .pcard-name{font-size:1.15rem;font-weight:700;line-height:1.35;letter-spacing:-.01em}
   .pcard-sub{font-size:.95rem;color:var(--grey);margin-top:.2rem}
   .pcard-price{font-size:1.05rem;color:var(--black);font-weight:600;margin-top:.4rem}
@@ -556,19 +562,20 @@
     </svg>
   </a>
   <div class="nav-right">
-    <button class="nav-icon" id="cartOpen" aria-label="Cart">
+    <a class="nav-icon" id="cartOpen" href="https://bvllrvnapparel.printful.me/" aria-label="Cart — BVLLRVN store">
       <span class="cart-word">Cart</span>
       <span class="bag-wrap">
         <svg class="bag-icon" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg>
-        <span class="cart-count" id="cartCount">0</span>
+        
       </span>
-    </button>
+    </a>
   </div>
 </nav>
 
 <!-- ============ MOBILE MENU ============ -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#shop">Shop</a>
+  <a href="https://bvllrvnapparel.printful.me/">Shop All</a>
   <a href="#women">Women</a>
   <a href="#men">Men</a>
   <a href="story.html">Story</a>
@@ -612,9 +619,10 @@
 <section id="shop" style="padding-bottom:1.5rem;padding-top:clamp(3.5rem,7vw,6rem)">
   <div class="sec-head" style="margin-bottom:clamp(2.2rem,4vw,3.4rem)">
     <h2 class="h-section" style="font-size:clamp(1.9rem,3.6vw,3rem);letter-spacing:-.035em;font-weight:700">Discover Drop 001</h2>
-    <p style="text-align:center;color:var(--grey);font-size:.95rem;margin-top:.7rem">Eight sets. Limited, never restocked.</p>
+    <p style="text-align:center;color:var(--grey);font-size:.95rem;margin-top:.7rem">Made to order. Shipped from the BVLLRVN store.</p>
   </div>
-  <div class="rail" id="productRail"></div>
+  <div class="rail rail-live" id="productRail"></div>
+  <div class="shop-all"><a href="https://bvllrvnapparel.printful.me/" class="btn btn-black">Shop All</a></div>
 </section>
 
 <!-- ============ TRENDING ============ -->
@@ -747,7 +755,7 @@
     <div class="foot-cols">
       <div class="foot-col">
         <h4>Shop</h4>
-        <a href="#shop">All Sets</a>
+        <a href="https://bvllrvnapparel.printful.me/">Shop All</a>
         <a href="#shop">Blackout Capsule</a>
         <a href="#women">Women</a>
         <a href="#men">Men</a>
@@ -831,41 +839,27 @@
 <div class="toast" id="toast">Added to cart</div>
 
 <script>
-/* ---------------- sets ---------------- */
+/* ---------------- products (live on the BVLLRVN Printful Quick Store) ---------------- */
+const STORE='https://bvllrvnapparel.printful.me/';
 const PRODUCTS = [
-  {id:'set-blackout-tonal',     name:'Blackout Set · Tonal',     sub:'Hoodie · Tee · Joggers · Cap · Duffle',      price:348, tag:'Best Seller', swatches:['#141416','#26262a','#f2f2f3'],
-   desc:'The flagship. Five pieces in 480 GSM fleece and heavyweight cotton — embossed, not printed, black on black. Where the blackout begins.'},
-  {id:'set-blackout-statement', name:'Blackout Set · Statement', sub:'White mark · Five pieces',                   price:348, tag:'',            swatches:['#101012','#3a3a3e'],
-   desc:'Same five pieces, louder mark. The white bull for the days the work should be seen. Heavyweight fleece, combed cotton, full-grain leather duffle.'},
-  {id:'set-heritage',           name:'Heritage Set',             sub:'Zip hoodie · Tees · Joggers · Duffle',       price:368, tag:'New',         swatches:['#5c5c60','#3d2228','#1d3128'],
-   desc:'Heather zip hoodie, embossed tees in oxblood and forest, tapered joggers, and the duffle. Earth tones. Same discipline.'},
-  {id:'set-utility',            name:'Utility Capsule',          sub:'Shell · Puffer vest · Knits · Cargo',        price:498, tag:'Limited',     swatches:['#1c2233','#e8e4d8','#2e2e33'],
-   desc:'Shell jacket, bone puffer vest, tonal knits, and utility cargo. Built for cold starts and long seasons. One run, then gone.'},
-  {id:'set-track',              name:'Momentum Track Set',       sub:'Track suit · Hoodie · Tees · Backpack',      price:298, tag:'',            swatches:['#1d2a4a','#2e2e33','#101012'],
-   desc:'Full track suit, short-sleeve hoodie, tees, and the pack. Momentum wear for the days between sessions — cut to move, composed at rest.'},
-  {id:'set-women-neutral',      name:"Women's Neutrals Set",     sub:'Cropped hoodie · Bras · Leggings · Joggers', price:268, tag:'Women',       swatches:['#b59a7e','#3c3c40'],
-   desc:'Cropped raw-hem hoodie, supported bras, high-rise leggings, and joggers in sand and charcoal. Soft hand, structured fit.'},
-  {id:'set-women-training',     name:'Sculpt Training Set',      sub:'Blackout hoodie · Joggers · Matte leggings', price:258, tag:'Women',       swatches:['#141416'],
-   desc:'Blackout cropped hoodie, matte-finish leggings, and biker shorts. Squat-proof, sweat-ready, tonal from warm-up to last set.'},
-  {id:'set-colors',             name:'Colors Pack',              sub:'Polo · Hoodie · Mesh shorts · Track suit',   price:328, tag:'Preview',     swatches:['#c9366b','#2a52be','#8fd14f','#e8722a'],
-   desc:'Polo, hoodie, mesh shorts, and the track suit in full color. A preview of what comes after the blackout. Early access for The Run.'},
+  {id:'tonal-tee-charcoal-on-black', name:'BVLLRVN Tonal Tee, Charcoal on Black', price:'$48',
+   img:'assets/products/qs-tonal-tee-charcoal-on-black.png', url:STORE+'product/bvllrvn-tonal-tee-charcoal-on-black'},
+  {id:'muscle-shirt', name:'Muscle Shirt', price:'From $22.50',
+   img:'assets/products/qs-muscle-shirt.jpg', url:STORE+'product/muscle-shirt'},
 ];
 
 const rail=document.getElementById('productRail');
 PRODUCTS.forEach(p=>{
-  const el=document.createElement('article');
+  const el=document.createElement('a');
   el.className='pcard';
+  el.href=p.url;
   el.innerHTML=`
-    <div class="pcard-img">
-      <button class="fav" aria-label="Add ${p.name} to wishlist">♡</button>
-      <img src="assets/products/${p.id}.png" alt="${p.name}">
-      <button class="quick-add" data-id="${p.id}" aria-label="Add ${p.name} to cart">+</button>
+    <div class="pcard-img pcard-sq">
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
     </div>
-    <div class="swatches">${p.swatches.map(c=>`<span class="swatch" style="background:${c}"></span>`).join('')}</div>
-    ${p.tag?`<span class="pill">${p.tag}</span>`:''}
-    <div class="pcard-name">${p.name}</div>
-    <div class="pcard-sub">${p.sub}</div>
-    <div class="pcard-price">$${p.price}</div>`;
+    <div class="pcard-name" style="margin-top:1rem">${p.name}</div>
+    <div class="pcard-price">${p.price}</div>
+    <span class="btn btn-black pcard-buy">Shop</span>`;
   rail.appendChild(el);
 });
 
@@ -875,7 +869,6 @@ cart=Object.fromEntries(Object.entries(cart).filter(([id])=>PRODUCTS.some(p=>p.i
 const drawer=document.getElementById('drawer'),overlay=document.getElementById('overlay');
 const openCart=()=>{drawer.classList.add('open');overlay.classList.add('open');renderCart()};
 const closeCart=()=>{drawer.classList.remove('open');overlay.classList.remove('open')};
-document.getElementById('cartOpen').addEventListener('click',openCart);
 
 /* ---------------- mobile menu ---------------- */
 const mMenu=document.getElementById('mobileMenu');
@@ -888,7 +881,7 @@ document.getElementById('cartClose').addEventListener('click',closeCart);
 overlay.addEventListener('click',closeCart);
 
 function saveCart(){localStorage.setItem('bvllrvn-cart',JSON.stringify(cart));updateCount()}
-function updateCount(){document.getElementById('cartCount').textContent=Object.values(cart).reduce((a,b)=>a+b,0)}
+function updateCount(){}
 function renderCart(){
   const box=document.getElementById('drawerItems');
   const ids=Object.keys(cart).filter(id=>PRODUCTS.some(p=>p.id===id));
@@ -944,13 +937,6 @@ function openProduct(p){
   document.body.style.overflow='hidden';
 }
 function closeProduct(){pmodal.classList.remove('open');document.body.style.overflow=''}
-document.addEventListener('click',e=>{
-  const card=e.target.closest('.pcard');
-  if(!card||e.target.closest('.quick-add')||e.target.closest('.fav'))return;
-  const name=card.querySelector('.pcard-name').textContent;
-  const p=PRODUCTS.find(x=>x.name===name);
-  if(p)openProduct(p);
-});
 document.getElementById('pmodalClose').addEventListener('click',closeProduct);
 pmodal.addEventListener('click',e=>{if(e.target===pmodal)closeProduct()});
 document.getElementById('pmodalSizes').addEventListener('click',e=>{
