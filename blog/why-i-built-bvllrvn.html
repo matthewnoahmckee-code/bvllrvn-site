@@ -109,15 +109,6 @@
     text-transform:uppercase;letter-spacing:-.03em;color:var(--white);
     margin:3.2rem 0;position:relative;isolation:isolate;
   }
-  /* Oversized tonal bull watermark behind the pull quote (CSS mask, purely decorative) */
-  .statement::before{
-    content:"";position:absolute;z-index:-1;pointer-events:none;
-    right:-14%;top:50%;width:min(340px,62vw);aspect-ratio:1354/1824;transform:translateY(-50%);
-    background:#fff;opacity:.04;
-    -webkit-mask:url(/assets/bull-mark.svg) center/contain no-repeat;
-            mask:url(/assets/bull-mark.svg) center/contain no-repeat;
-  }
-  @media (max-width:640px){.statement::before{right:-18%;width:min(240px,60vw)}}
   .statement .dim{color:#6f6f73}
   .sign-bull{display:block;width:auto;height:28px;color:var(--white);margin-bottom:1.1rem}
   .divider{display:flex;align-items:center;gap:1.1rem;margin:2.6rem 0 2.8rem;color:#45454a}
