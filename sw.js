@@ -1,7 +1,7 @@
 /* BVLLRVN service worker — minimal shell cache for PWA installability.
    Network-first so deploys are always fresh; cache is the offline fallback. */
 const CACHE = 'bvllrvn-v1';
-const SHELL = ['/', '/index.html', '/story.html', '/assets/favicon.png'];
+const SHELL = ['/', '/index.html', '/story.html', '/blog/', '/blog/why-i-built-bvllrvn.html', '/assets/favicon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
