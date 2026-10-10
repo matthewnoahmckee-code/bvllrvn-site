@@ -101,7 +101,7 @@
   .intro{color:#c9c9cc;font-size:1.05rem;line-height:2;margin-bottom:3rem}
   .posts{display:grid;gap:1.2rem}
   .card{
-    display:block;border:1px solid var(--line);padding:clamp(1.6rem,4vw,2.4rem);
+    position:relative;display:block;border:1px solid var(--line);padding:clamp(1.6rem,4vw,2.4rem);
     text-decoration:none;color:var(--white);transition:border-color .3s var(--ease),background .3s var(--ease);
   }
   .card:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.02)}
@@ -111,6 +111,13 @@
     text-transform:uppercase;letter-spacing:-.03em;margin:.7rem 0 1rem;
   }
   .card p{color:#c9c9cc;font-size:1rem;line-height:1.9;margin-bottom:1.4rem}
+  .card-bull{
+    position:absolute;top:clamp(1.4rem,3.5vw,2.1rem);right:clamp(1.4rem,3.5vw,2.1rem);
+    height:44px;width:auto;color:#2a2a2d;transition:color .4s var(--ease);
+    filter:drop-shadow(0 -1px 0 rgba(255,255,255,.05)) drop-shadow(0 1px 1px rgba(0,0,0,.8));
+  }
+  .card:hover .card-bull{color:#3a3a3e}
+  .card h2{padding-right:2.8rem}
   .card .more{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 </style>
 </head>
@@ -132,6 +139,7 @@
 
     <div class="posts">
       <a class="card" href="/blog/why-i-built-bvllrvn.html">
+        <svg class="card-bull" viewBox="0 0 1354 1824" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><use href="/assets/bull-mark.svg#bull" fill="currentColor"/></svg>
         <time datetime="2026-10-09">Oct 9, 2026</time>
         <h2>Why I Built BVLLRVN</h2>
         <p>To me, the name means grit and betting on yourself. A bull run is a bet that things go up. BVLLRVN is that bet, placed on you.</p>

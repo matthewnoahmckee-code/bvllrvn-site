@@ -72,9 +72,30 @@
   nav a.back:hover{opacity:1}
   .nav-logo svg{height:14px;width:auto;display:block;color:var(--white)}
 
-  .hero-img{width:100%;height:52vh;object-fit:cover;opacity:.85}
+  /* Hero: tonal, embossed bull on black */
+  .hero-band{
+    position:relative;height:52vh;min-height:340px;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(ellipse 60% 70% at 50% 45%,rgba(255,255,255,.035),rgba(255,255,255,0) 70%),
+      var(--black);
+    border-bottom:1px solid var(--line);
+  }
+  .hero-band::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(0,0,0,0) 55%,rgba(0,0,0,.55) 100%);
+  }
+  .hero-bull{
+    position:relative;z-index:1;height:72%;width:auto;color:#1e1e21;
+    filter:drop-shadow(0 -1px 0 rgba(255,255,255,.09)) drop-shadow(0 2px 1px rgba(0,0,0,.9)) drop-shadow(0 10px 18px rgba(0,0,0,.6));
+  }
+  @media (max-width:640px){.hero-band{height:38vh;min-height:260px}.hero-bull{height:70%}}
+  @media (prefers-reduced-motion:no-preference){
+    .hero-bull{animation:bullIn 1.6s var(--ease) both}
+    @keyframes bullIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  }
 
-  article{padding:clamp(3.5rem,7vw,6rem) 0 clamp(4rem,8vw,7rem)}
+  article{padding:clamp(3.5rem,7vw,6rem) 0 clamp(4rem,8vw,7rem);overflow-x:clip}
   .eyebrow{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--grey)}
   h1{
     font-size:clamp(2.4rem,6vw,4rem);font-weight:700;line-height:1.05;
@@ -86,9 +107,22 @@
   .statement{
     font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:700;line-height:1.4;
     text-transform:uppercase;letter-spacing:-.03em;color:var(--white);
-    margin:3.2rem 0;
+    margin:3.2rem 0;position:relative;isolation:isolate;
   }
+  /* Oversized tonal bull watermark behind the pull quote (CSS mask, purely decorative) */
+  .statement::before{
+    content:"";position:absolute;z-index:-1;pointer-events:none;
+    right:-14%;top:50%;width:min(340px,62vw);aspect-ratio:1354/1824;transform:translateY(-50%);
+    background:#fff;opacity:.04;
+    -webkit-mask:url(/assets/bull-mark.svg) center/contain no-repeat;
+            mask:url(/assets/bull-mark.svg) center/contain no-repeat;
+  }
+  @media (max-width:640px){.statement::before{right:-18%;width:min(240px,60vw)}}
   .statement .dim{color:#6f6f73}
+  .sign-bull{display:block;width:auto;height:28px;color:var(--white);margin-bottom:1.1rem}
+  .divider{display:flex;align-items:center;gap:1.1rem;margin:2.6rem 0 2.8rem;color:#45454a}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+  .divider svg{height:22px;width:auto;display:block}
   .sign{
     margin-top:3rem;padding-top:2rem;border-top:1px solid var(--line);
     font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--grey);
@@ -122,7 +156,9 @@
   <span></span>
 </nav>
 
-<img class="hero-img" src="/assets/products/texture-macro.png" alt="Black-on-black BVLLRVN bull embroidery on a heavyweight hoodie">
+<div class="hero-band" aria-hidden="true">
+  <svg class="hero-bull" viewBox="0 0 1354 1824" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><use href="/assets/bull-mark.svg#bull" fill="currentColor"/></svg>
+</div>
 
 <article>
   <div class="wrap">
@@ -132,6 +168,8 @@
 
     <p>I build BVLLRVN in the hours nobody sees: early mornings, late nights, the margins of a full life.</p>
 
+    <div class="divider" aria-hidden="true"><svg viewBox="0 0 1354 1824" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><use href="/assets/bull-mark.svg#bull" fill="currentColor"/></svg></div>
+
     <p>To me, the name means grit and betting on yourself. A bull run is a bet that things go up. BVLLRVN is that bet, placed on you.</p>
 
     <p>This season of my life is a rebirth. I'm rising toward dreams I used to set aside, and I can feel the world about to change. I don't want to watch that change from the sidelines. I want to seize it while others sleep, and build while others fight to hold on to comfort and mediocrity.</p>
@@ -140,7 +178,7 @@
 
     <div class="statement">This is our time to build a new world, and a new version of ourselves to rise into.</div>
 
-    <div class="sign">Est. in the climb, not the peak. — Matthew</div>
+    <div class="sign"><svg class="sign-bull" viewBox="0 0 1354 1824" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><use href="/assets/bull-mark.svg#bull" fill="currentColor"/></svg>Est. in the climb, not the peak. — Matthew</div>
 
     <a class="cta" href="/">Shop Drop 001</a>
 
