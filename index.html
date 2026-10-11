@@ -226,7 +226,8 @@
   .pcard{text-decoration:none;color:var(--black);display:block}
   .pcard-img.pcard-sq{aspect-ratio:1/1;background:var(--white)}
   .pcard-img.pcard-sq img{object-fit:contain}
-  .pcard-buy{margin-top:1rem}
+  .pcard-buy{display:inline-block;margin-top:.8rem;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:inherit;border-bottom:1px solid currentColor;padding-bottom:.2rem}
+  .pcard:hover .pcard-buy{opacity:.6}
   .shop-all{text-align:center;margin-top:clamp(1.6rem,3vw,2.4rem)}
   .pcard-name{font-size:1.15rem;font-weight:700;line-height:1.35;letter-spacing:-.01em}
   .pcard-sub{font-size:.95rem;color:var(--grey);margin-top:.2rem}
@@ -627,7 +628,6 @@
     <p style="text-align:center;color:var(--grey);font-size:.95rem;margin-top:.7rem">Made to order. Shipped from the BVLLRVN store.</p>
   </div>
   <div class="rail rail-live" id="productRail"></div>
-  <div class="shop-all"><a href="https://bvllrvnapparel.printful.me/" class="btn btn-black">Shop All</a></div>
 </section>
 
 <!-- ============ TRENDING ============ -->
@@ -866,7 +866,7 @@ PRODUCTS.forEach(p=>{
     </div>
     <div class="pcard-name" style="margin-top:1rem">${p.name}</div>
     <div class="pcard-price">${p.price}</div>
-    <span class="btn btn-black pcard-buy">Shop</span>`;
+    <span class="pcard-buy">Shop now &rarr;</span>`;
   rail.appendChild(el);
 });
 
