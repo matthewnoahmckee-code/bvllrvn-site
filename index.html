@@ -129,7 +129,11 @@
     background:var(--black);color:var(--white);text-align:center;
     margin:.9rem 1.4rem 0;border:none;font-weight:800;letter-spacing:.06em;
   }
-  @media(min-width:981px){.mobile-menu{display:none}}
+  @media(min-width:1281px){.mobile-menu{display:none}}
+  @media(max-width:1280px){
+    .nav-left a{display:none}
+    .nav-burger,.nav-search{display:inline-flex}
+  }
 
   /* ============ utility strip ============ */
   .strip{
@@ -580,7 +584,6 @@
 <!-- ============ MOBILE MENU ============ -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#shop">Shop</a>
-  <a href="https://bvllrvnapparel.printful.me/">Shop All</a>
   <a href="#women">Women</a>
   <a href="#men">Men</a>
   <a href="story.html">Story</a>
@@ -762,7 +765,6 @@
     <div class="foot-cols">
       <div class="foot-col">
         <h4>Shop</h4>
-        <a href="https://bvllrvnapparel.printful.me/">Shop All</a>
         <a href="#shop">Blackout Capsule</a>
         <a href="#women">Women</a>
         <a href="#men">Men</a>
