@@ -130,6 +130,9 @@
     margin:.9rem 1.4rem 0;border:none;font-weight:800;letter-spacing:.06em;
   }
   @media(min-width:1281px){.mobile-menu{display:none}}
+  html.nav-compact .nav-left a{display:none}
+  html.nav-compact .nav-burger,html.nav-compact .nav-search{display:inline-flex}
+  html.nav-compact .mobile-menu{display:block}
   @media(max-width:1280px){
     .nav-left a{display:none}
     .nav-burger,.nav-search{display:inline-flex}
@@ -1089,5 +1092,23 @@ document.getElementById('newsForm').addEventListener('submit',async e=>{
 });
 </script>
 <script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
+<script>
+/* Collapse to the hamburger whenever the left links would touch the centered wordmark (any width, zoom or font size). */
+(function(){
+  var root=document.documentElement;
+  function check(){
+    var left=document.querySelector('.nav-left'), logo=document.querySelector('.nav-logo');
+    if(!left||!logo) return;
+    root.classList.remove('nav-compact');
+    var links=left.querySelectorAll('a'), last=links[links.length-1];
+    if(!last||last.offsetParent===null) return;
+    if(last.getBoundingClientRect().right > logo.getBoundingClientRect().left-32) root.classList.add('nav-compact');
+  }
+  window.addEventListener('resize',check);
+  window.addEventListener('load',check);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(check);
+  check();
+})();
+</script>
 </body>
 </html>
