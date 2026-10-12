@@ -574,13 +574,6 @@
     </svg>
   </a>
   <div class="nav-right">
-    <a class="nav-icon" id="cartOpen" href="https://bvllrvnapparel.printful.me/" aria-label="Cart — BVLLRVN store">
-      <span class="cart-word">Cart</span>
-      <span class="bag-wrap">
-        <svg class="bag-icon" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10"/></svg>
-        
-      </span>
-    </a>
   </div>
 </nav>
 
@@ -853,11 +846,11 @@
 <div class="toast" id="toast">Added to cart</div>
 
 <script>
-/* ---------------- products (live on the BVLLRVN Printful Quick Store) ---------------- */
-const STORE='https://bvllrvnapparel.printful.me/';
+/* ---------------- products (pre-launch: cards point to The Run waitlist until the Shopify shop opens) ---------------- */
+const WAITLIST_URL='#join';
 const PRODUCTS = [
   {id:'tonal-tee-charcoal-on-black', name:'BVLLRVN Tonal Tee, Charcoal on Black', price:'$48',
-   img:'assets/products/qs-tonal-tee-charcoal-on-black.png', url:STORE+'product/bvllrvn-tonal-tee-charcoal-on-black'},
+   img:'assets/products/qs-tonal-tee-charcoal-on-black.png', url:WAITLIST_URL},
 ];
 
 const rail=document.getElementById('productRail');
@@ -870,8 +863,7 @@ PRODUCTS.forEach(p=>{
       <img src="${p.img}" alt="${p.name}" loading="lazy">
     </div>
     <div class="pcard-name" style="margin-top:1rem">${p.name}</div>
-    <div class="pcard-price">${p.price}</div>
-    <span class="pcard-buy">Shop now &rarr;</span>`;
+    <span class="pcard-buy">Join the waitlist &rarr;</span>`;
   rail.appendChild(el);
 });
 
